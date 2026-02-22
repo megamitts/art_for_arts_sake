@@ -1,7 +1,7 @@
 function setup() {
-  createCanvas(450, 600); // 450, 500
+  createCanvas(450, 500); // 450, 500
   angleMode(DEGREES);
-  //noLoop();
+  noLoop();
 }
 
 function draw() {
@@ -13,17 +13,17 @@ function draw() {
   
   
   push()
-  //translate(0,-20);
+  translate(0,-20);
   man();
   push();
-  //translate(-30,0);
+  translate(-30,0);
   woman();
   pop();
   pop();
-  // push();
-  // scale(0.5);
-  // drawCursiveM(765, 940, 45); // x, y, size
-  // pop();
+  push();
+  scale(0.5);
+  drawCursiveM(765, 940, 45); // x, y, size
+  pop();
 }
 
 function man(){
@@ -133,8 +133,55 @@ function man(){
   vertex(136,409);
   vertex(113,439);
   endShape(CLOSE);
+  
+  //trousers otter brown #654321  
+  
+  fill('#654321EE');
+  beginShape();
+  vertex(108,266);
+  vertex(119,253);
+  vertex(130,294);
+  vertex(148,281);
+  vertex(177,347);
+  vertex(92,461);
+  vertex(85, 452);
+  vertex(153,348);
+  vertex(139, 323);
+  vertex(132,330);
+  vertex(132, 367);
+  vertex(117, 391);
+  endShape(CLOSE);
+  
+  fill('#654321EE');
+  beginShape();
+  vertex(120,435);
+  vertex(132,420);
+  vertex(128,473);
+  vertex(122, 480);
+  endShape(CLOSE);
+  
+  //shirt Mikado Yellow #ffc40c 
+  
+  fill('#ffc40cEE');
+  beginShape();
+  vertex(122,115);
+  vertex(140, 140);
+  vertex(140, 213);
+  vertex(146,216);
+  vertex(153, 262);
+  vertex(131, 275);
+  vertex(122,193);
+  vertex(105,232);
+  vertex(113,237);
+  vertex(107,251);
+  vertex(94,239);
+  endShape(CLOSE);
+  
+  
   noFill();
   stroke(0);
+  
+  
   
 }
 
@@ -228,6 +275,30 @@ function woman(){
   line(296,247, 293,262);
   line(275,280, 285,300);
   
+  
+  /* colouring in */
+  
+  // dress burnt orange #CC5500EE
+  
+  fill('#CC5500EE');
+  noStroke();
+  //top
+  beginShape();
+  vertex(302,152);
+  vertex(314,147);
+  vertex(347,251);
+  vertex(306,242);
+  endShape(CLOSE);
+  //bottom
+  beginShape();
+  vertex(299,256);
+  vertex(335,267);
+  vertex(349,435);
+  vertex(271,419);
+  endShape(CLOSE);
+  
+  stroke(0);
+  noFill();
   
 }
 
