@@ -1,1 +1,1 @@
-I came across the artdecofigures.jpeg on X and was quite taken by it. I believe it's an AI piece of art, but it's still quite lovely. I like taking a piece and seeing if I can recreate something like it in p5.js. I'm quite pleased with the result.
+A collection of art by myself. Most done with p5js.
