@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+  //Tone.js always console.logs when it loads.  annoying, on openprocessing.
+  // 1. Save original console.log and silence it
+  window._originalLog = console.log;
+  console.log = function() {};
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/tone@15.1.22/build/Tone.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    
+    <script>
+  // Restore the console.log function
+  console.log = window._originalLog;
+</script>
+    
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <main>
+    </main>
+    <script defer src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script defer src="fork.js"></script>
+  </body>
+</html>
