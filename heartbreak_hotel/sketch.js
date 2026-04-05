@@ -1,3 +1,20 @@
+/* 
+
+#WCCChallenge. "Things fall apart" (but nothing breaks like a heart.) 5/4/26
+
+
+Something I've been working on and off for a while now and thought it fit with this week's challenge so finally
+finished it.
+
+
+*/
+
+let raindrops = [];
+const numDrops = 100; // Number of raindrops
+
+
+
+let timePassed = 0;
 let LasFont; // by Måns Grebäck
 let TarpFont; // by Barry Stock Fonts
 const SC = 4.5; // heart scale factor
@@ -9,19 +26,23 @@ function preload(){
 
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(500, 560);
   angleMode(DEGREES);
+
+	for (let i = 0; i < numDrops; i++) {
+    raindrops.push(new Raindrop());
+  }
   
 }
 
 function draw() {
-  console.log(floor(mouseX), floor(mouseY));
-  background(0);
+  //console.log(floor(mouseX), floor(mouseY));
+  background(20);
   
-  //Elvis
+  //Elvis, the KING!
   push();
   drawingContext.shadowBlur = 35;
-  drawingContext.shadowColor ="#FF13F0FF";
+  drawingContext.shadowColor ="#FF13FfFF";
   scale(0.9)
   translate(140,0); 
   noFill();
@@ -211,7 +232,7 @@ function draw() {
   
   translate(200,200);
   drawingContext.shadowBlur = 35;
-  drawingContext.shadowColor ="#FFF01FFF";
+  drawingContext.shadowColor ="#FFFf8FFF";
   scale(0.5);
   rotate(350);
   translate(-340,-300);
@@ -220,11 +241,25 @@ function draw() {
   textFont(LasFont);
   fill('#FFF01F');
   stroke(255);
-  text('Heartbreak', 60, 130);
-  text('Hotel', 150, 210);
+
+	let signTime = floor(millis() / 700) % 2 === 1;
+if(signTime){  
+text('Heartbreak', 60, 130);
+	text('H', 150, 210);
+		
+	} else{
+		text('Heartbrea', 60, 130);
+	}
+  
   rect(20, 20, 490, 10, 20);
+
+	let signTime2 = floor(millis() / 450) % 2 === 1;
+	let signTime3 = floor(millis() / 800) % 2 === 1;
+	if(signTime3){
+	text('    otel', 150, 210);}
   rect(20, 250, 490, 10, 20);
-  rect(20, 35, 10, 210, 20);
+	if(signTime2){
+  rect(20, 35, 10, 150, 20,20,0,0);}
   rect(500, 35, 10, 210, 20);
   drawingContext.shadowColor = 0;
   pop();
@@ -232,20 +267,23 @@ function draw() {
   //vacancies
   push();
   drawingContext.shadowBlur = 35;
-  drawingContext.shadowColor ="#C724d1FF";
+  drawingContext.shadowColor ="#D734ffFF";
   textSize(80);
   textFont(TarpFont);
   fill('#C724B1');
   stroke(255);
   
-  
-  text('V', 20, 510);
+  let time = floor(millis() / 150) % 2 === 1;
+  let time2 = floor(millis() / 700) % 2 === 1;
+  if (time){
+  text('V', 20, 510);}
   text('A', 60, 510);
   text('C', 125, 510);
   text('A', 180, 510);
   text('N', 245, 510);
+  if(time2){
   text('C', 305, 510);
-  text('I', 360, 510);
+  text('I', 360, 510);}
   text('E', 385, 510);
   text('S', 435, 510);
   
@@ -254,7 +292,7 @@ function draw() {
   
   
   
-  //broken heart
+  //broken heart - I did use AI for this bit as my maths skill is not so great and hearts are actually some funky maths!
   
   // Toggle state every 500ms → full 1-second cycle
   let broken = floor(millis() / 1500) % 2 === 1;
@@ -287,6 +325,50 @@ function draw() {
   drawingContext.shadowBlur = 0;
   angleMode(DEGREES);
   pop();
+
+	push();
+	// Draw and update each raindrop
+  for (let drop of raindrops) {
+    drop.update();
+    drop.show();
+  }
+	pop();
+}
+
+
+// Raindrop class
+class Raindrop {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    // Random horizontal position
+    this.x = random(-20,width);
+    // Start above the visible area
+    this.y = random(-height, 0);
+    // Random length and speed for depth effect
+    this.length = 2;
+    this.speed = random(4, 8);
+    // Slightly vary thickness
+    this.thickness = map(this.speed, 4, 8, 1, 2.5);
+  }
+
+  update() {
+    this.y += this.speed;
+    this.x += this.speed/8;
+    // Reset drop when it goes off screen
+    if (this.y > height-50) {
+      this.reset();
+      this.y = random(-20, -5);
+    }
+  }
+
+  show() {
+    strokeWeight(this.thickness);
+    stroke(180, 200, 255); // Light blue rain color
+    line(this.x, this.y, this.x, this.y + this.length);
+  }
 }
 
 
@@ -381,3 +463,6 @@ function drawJaggedCrack() {
   vertex( 0,  yBot);
   endShape();
 }
+
+
+/* Optimising? I leave that to professionals! */
