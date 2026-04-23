@@ -7,14 +7,58 @@
         let burstTriggered = false;
         let pg;
         let bgStars = [];
+        let moonCraterData = []; // store crater positions/sizes
+
 
         function setup() {
-            createCanvas(windowWidth, windowHeight);
+
+          //noprotect
+          createCanvas(windowWidth, windowHeight);
+          pixelDensity(1);
+
+          
+          let moonCenterX = windowWidth - 300;
+  let moonCenterY = 100;
+  let moonRadius = 50;
+  let craterCount = 60;
+  randomSeed(100);
+  noiseSeed(299);
+  for (let i = 0; i < craterCount; i++) {
+    // mix small and occasional large craters
+    let r = random(2, 6);        // small crater
+    if (i < 5) r = random(10, 18); // make 5 large basins
+
+    let angle = random(TWO_PI);
+    let distFromCenter = random(moonRadius * 0.1, moonRadius * 0.95);
+    let cx = moonCenterX + cos(angle) * distFromCenter;
+    let cy = moonCenterY + sin(angle) * distFromCenter;
+
+    // add subtle Perlin noise for irregularity
+    let offset = 1.5;
+    cx += (noise(cx * 0.05, cy * 0.05) - 0.5) * offset;
+    cy += (noise(cx * 0.05 + 100, cy * 0.05 + 100) - 0.5) * offset;
+
+    let craterShade = random(70, 130);
+    let craterAlpha = random(120, 200);
+
+    // optional highlight for depth illusion
+    let highlight = {
+      x: cx - r * 0.2,
+      y: cy - r * 0.2,
+      size: r * 0.6
+    };
+
+    moonCraterData.push({cx, cy, r, craterShade, craterAlpha, highlight});
+  }
+          
+          
+          
             textFont('Georgia');
 
             // Create offscreen buffer to sample text pixels
             pg = createGraphics(width, height);
             pg.background(0);
+            pg.pixelDensity(1);
             pg.fill(255);
             pg.noStroke();
             pg.textAlign(CENTER, CENTER);
@@ -52,9 +96,36 @@
             phaseTimer = millis();
         }
 
-        function draw() {
+function draw() {
             background(10, 5, 30);
 
+   //moon
+
+  push();
+  drawingContext.filter = 'blur(3px)';
+  
+  fill(246, 241, 213);
+  circle(windowWidth - 300,100,100);
+  
+  drawingContext.filter = 'none';
+  pop();
+  
+  
+ // draw craters
+  
+  for (let c of moonCraterData) {
+    noStroke();
+    fill(c.craterShade, c.craterShade, c.craterShade, 50);
+    ellipse(c.cx, c.cy, c.r, c.r);
+  
+    
+    
+    fill(255, 255, 255, 40); // subtle highlight
+    ellipse(c.highlight.x, c.highlight.y, c.highlight.size, c.highlight.size);
+    
+  }
+  
+  
             // Draw background stars
             noStroke();
             for (let s of bgStars) {
@@ -71,9 +142,17 @@
                 drawSparklingText(elapsed);
 
                 // Generate sparkles along text
-                if (frameCount % 2 === 0) {
-                    let p = random(textParticles);
-                    sparkles.push(new Sparkle(p.x + random(-3, 3), p.y + random(-3, 3)));
+                // if (frameCount % 2 === 0) {
+                //     let p = random(textParticles);
+                //     sparkles.push(new Sparkle(p.x + random(-3, 3), p.y + random(-3, 3)));
+//}
+              
+              if (frameCount % 2 === 0 && textParticles.length > 0) {
+  let p = random(textParticles);
+  if (p) {
+    sparkles.push(new Sparkle(p.x + random(-3, 3), p.y + random(-3, 3)));
+  }
+
                 }
 
                 // Transition after 4 seconds
@@ -85,8 +164,10 @@
                     // Create butterflies from text positions
                     let numButterflies = 51;
                     for (let i = 0; i < numButterflies; i++) {
-                        let p = random(textParticles);
-                        butterflies.push(new Butterfly(p.x, p.y));
+                        // let p = random(textParticles);
+                        // butterflies.push(new Butterfly(p.x, p.y));
+                      let p = random(textParticles);
+if (p) butterflies.push(new Butterfly(p.x, p.y));
                     }
 
                     // Create burst particles
@@ -139,9 +220,13 @@
                     fadeIn = constrain(fadeIn, 0, 180);
                     textAlign(CENTER, CENTER);
                     textSize(min(width / 10, 60));
-                    fill(255, 220, 255, fadeIn);
+                    //fill(255, 220, 255, fadeIn);
+                  fill(255, 68, 204, fadeIn)
                     noStroke();
+                    drawingContext.shadowBlur = 30;
+                    drawingContext.shadowColor = `rgb(255,68,204)`;
                     text("🎂 Happy Birthday, Boopty! 🎂", width / 2, height - 80);
+                drawingContext.shadowBlur = 0
                 }
 
                 // Add occasional new sparkles trailing butterflies
